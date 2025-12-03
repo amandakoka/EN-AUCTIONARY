@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { userService } from "../../services/user.service";
 import * as EmailValidator from "email-validator";
 
 export default {
@@ -51,6 +52,16 @@ export default {
                 this.error = "Password not strong enough."
                 return;
             }
+
+            userService.login(email,password)
+            .then(result => {
+                console.log("Login successful", result);
+                this.$router.push("/");
+            })
+            .catch(error => {
+                this.error = error
+                this.submitted = false;
+            });
         }
     }
 }
